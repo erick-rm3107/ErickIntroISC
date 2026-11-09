@@ -1,11 +1,543 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Aleksandr Scriabin | El Poeta del Fuego y el Color</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        gold: {
+                            300: '#fde047',
+                            400: '#eab308',
+                            500: '#d97706',
+                            600: '#b45309',
+                        },
+                        mystic: {
+                            dark: '#09080e',
+                            card: '#13111c',
+                            border: '#2a2438'
+                        }
+                    },
+                    boxShadow: {
+                        'glow-gold': '0 0 25px -5px rgba(234, 179, 8, 0.3)',
+                        'glow-color': '0 0 35px -5px var(--glow-color, rgba(234, 179, 8, 0.4))'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados para animaciones y sinestesia */
+        body {
+            background-color: #09080e;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #fff5d6 0%, #eab308 50%, #b45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mystic-bg-radial {
+            background: radial-gradient(circle at 50% 30%, rgba(180, 83, 9, 0.15) 0%, rgba(9, 8, 14, 0.95) 70%);
+        }
+
+        /* Ambient light transition effect */
+        .color-ambient-glow {
+            transition: background-color 0.8s ease, box-shadow 0.8s ease;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09080e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2438;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d97706;
+        }
+
+        .note-key {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .note-key:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .note-key.active {
+            transform: translateY(-4px) scale(0.98);
+        }
+    </style>
 </head>
-<body>
-    <h1>Mi sitio web</h1>
+<body class="font-sans antialiased selection:bg-amber-500 selection:text-black">
+
+    <!-- Ambient Glow Background Canvas Layer -->
+    <div id="ambientGlow" class="fixed inset-0 pointer-events-none z-0 opacity-20 color-ambient-glow" style="background: radial-gradient(circle at 50% 50%, rgba(234,179,8,0.3), transparent 70%);"></div>
+
+    <!-- Navegación -->
+    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-mystic-dark/80 border-b border-mystic-border/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="font-cinzel text-xl md:text-2xl font-bold tracking-widest text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-fire text-amber-500 text-lg"></i>
+                SCRIABIN
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 font-medium text-sm tracking-wide text-slate-300">
+                <a href="#hero" class="hover:text-amber-400 transition-colors">INICIO</a>
+                <a href="#biografia" class="hover:text-amber-400 transition-colors">FILOSOFÍA</a>
+                <a href="#obras" class="hover:text-amber-400 transition-colors">OBRAS</a>
+                <a href="#sinestesia" class="hover:text-amber-400 transition-colors">CLAVIER À LUMIÈRES</a>
+                <a href="#citas" class="hover:text-amber-400 transition-colors">CITAS</a>
+            </div>
+
+            <!-- Menú Mobile Toggle -->
+            <button id="mobileMenuBtn" class="md:hidden text-amber-400 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Menú Mobile desplegable -->
+        <div id="mobileMenu" class="hidden md:hidden bg-mystic-card border-b border-mystic-border px-6 py-4 flex flex-col space-y-4 font-cinzel">
+            <a href="#hero" class="mobile-link text-slate-200 hover:text-amber-400">INICIO</a>
+            <a href="#biografia" class="mobile-link text-slate-200 hover:text-amber-400">FILOSOFÍA</a>
+            <a href="#obras" class="mobile-link text-slate-200 hover:text-amber-400">OBRAS</a>
+            <a href="#sinestesia" class="mobile-link text-slate-200 hover:text-amber-400">CLAVIER À LUMIÈRES</a>
+            <a href="#citas" class="mobile-link text-slate-200 hover:text-amber-400">CITAS</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-6 mystic-bg-radial overflow-hidden z-10">
+        <!-- Elementos decorativos cósmicos/fuego -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 left-10 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="inline-block font-cinzel text-xs md:text-sm tracking-[0.3em] uppercase text-amber-400 mb-4 px-4 py-1.5 border border-amber-500/30 rounded-full bg-amber-500/5">
+                1872 — 1915 • Místico, Sinestésico, Visionario
+            </span>
+            
+            <h1 class="font-cinzel text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 leading-tight gradient-text">
+                ALEKSANDR SCRIABIN
+            </h1>
+            
+            <p class="text-lg md:text-2xl text-slate-300 font-light mb-10 max-w-2xl mx-auto leading-relaxed">
+                "Vengo a decirles que el Arte es la verdad del universo, la fuerza divina que transforma la materia en espíritu purificado."
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+                <a href="#sinestesia" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold rounded-lg shadow-glow-gold transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
+                    Explorar el Teclado de Color
+                </a>
+                <a href="#obras" class="w-full sm:w-auto px-8 py-4 border border-slate-700 hover:border-amber-500/60 text-slate-300 hover:text-amber-400 font-semibold rounded-lg bg-mystic-card/50 backdrop-blur-sm transition-all duration-300">
+                    Escuchar Obras
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 animate-bounce">
+            <a href="#biografia"><i class="fa-solid fa-chevron-down text-xl"></i></a>
+        </div>
+    </section>
+
+    <!-- Biografía & Filosofía -->
+    <section id="biografia" class="py-24 px-6 relative z-10 border-t border-mystic-border/30 bg-mystic-dark">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Columna Ilustrativa/Arte -->
+            <div class="lg:col-span-5 relative">
+                <div class="relative rounded-2xl overflow-hidden border border-amber-500/20 shadow-2xl bg-mystic-card group">
+                    <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Piano místico de Scriabin" 
+                         class="w-full h-[450px] object-cover opacity-80 group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-mystic-dark via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-mystic-dark/80 backdrop-blur-md border border-slate-800">
+                        <p class="font-cinzel text-amber-400 font-semibold text-lg">El Acorde Místico</p>
+                        <p class="text-xs text-slate-400 mt-1">C7 - F♯7 - B♭7 - E7 - A7 - D7 (Do-Fa#-Si♭-Mi-La-Re), la estructura armónica trascendental scriabiniana.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Texto -->
+            <div class="lg:col-span-7 space-y-6">
+                <div>
+                    <span class="text-amber-500 font-cinzel font-semibold tracking-widest text-sm uppercase">Misticismo y Teosofía</span>
+                    <h2 class="font-cinzel text-3xl md:text-5xl font-bold text-slate-100 mt-2">La Transmutación Cósmica de la Música</h2>
+                </div>
+
+                <p class="text-slate-300 leading-relaxed text-lg">
+                    Aleksandr Nikoláyevich Skriabin fue una de las figuras más enigmáticas e innovadoras del Romanticismo tardío y los albores de la música moderna en Rusia. Su evolución artística transitó de la delicadeza lírica inspirada por Chopin hacia un lenguaje radical, expresionista y cargado de teosofía.
+                </p>
+
+                <p class="text-slate-400 leading-relaxed">
+                    Scriabin experimentaba la <strong>sinestesia</strong>: la capacidad de percibir sonidos en forma de colores vibrantes. Creía fervientemente que la música tenía la misión teúrgica de transformar la conciencia humana e iniciar el fin de la existencia material para dar paso al extasiado reino espiritual.
+                </p>
+
+                <!-- Tarjeta destacada Mysterium -->
+                <div class="p-6 rounded-xl bg-mystic-card border border-amber-500/20 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl pointer-events-none"></div>
+                    <h3 class="font-cinzel text-xl font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-sun text-amber-500"></i>
+                        El Proyecto 'Mysterium'
+                    </h3>
+                    <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                        Su obra magna inacabada concebida para ser ejecutada al pie del Himalaya durante siete días. Involucraba orquesta, coros, luces sinestésicas, aromas y danzas. Según Scriabin, su interpretación catalizaría el cataclismo místico del universo y la apoteosis de la humanidad.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Visualización de Sinestesia (Clavier à lumières) -->
+    <section id="sinestesia" class="py-24 px-6 bg-mystic-dark/50 border-t border-mystic-border/30 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-500 font-cinzel font-semibold tracking-widest text-sm uppercase">Innovación Sensorial</span>
+                <h2 class="font-cinzel text-3xl md:text-5xl font-bold text-slate-100 mt-2">Clavier à Lumières</h2>
+                <p class="text-slate-400 mt-4 text-base md:text-lg">
+                    Scriabin diseñó un sistema cromático donde cada nota musical resonaba con un color específico de la psique humana. Haz clic en las teclas para experimentar su sinestesia visual y sonora.
+                </p>
+            </div>
+
+            <!-- Pantalla / Halo de Color de la Sinestesia -->
+            <div id="synesthesiaDisplay" class="w-full h-48 md:h-64 rounded-2xl border border-slate-700/60 mb-10 flex flex-col items-center justify-center transition-all duration-700 relative overflow-hidden shadow-2xl bg-slate-900/40">
+                <div id="colorGlowBg" class="absolute inset-0 opacity-40 transition-opacity duration-500"></div>
+                <div class="relative z-10 text-center px-4">
+                    <p id="synesthesiaNote" class="font-cinzel text-4xl md:text-6xl font-black text-white tracking-widest drop-shadow-md">C (Do)</p>
+                    <p id="synesthesiaColorName" class="font-sans text-sm md:text-lg uppercase tracking-widest text-amber-300 font-medium mt-2">Rojo Vivo / Intenso</p>
+                    <p id="synesthesiaMeaning" class="text-xs md:text-sm text-slate-300 italic mt-1 max-w-md">Simboliza la materia inicial, la fuerza terrenal y la voluntad elemental.</p>
+                </div>
+            </div>
+
+            <!-- Teclado de notas sinestésicas -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- C -->
+                <button onclick="selectNote('C', '#ff0000', 'Rojo Intenso', 'Materia, Fuerza Terrenal, Voluntad', 261.63)" class="note-key active p-4 rounded-xl bg-mystic-card border border-red-500/40 text-left hover:border-red-500">
+                    <span class="block text-2xl font-bold text-red-500 font-cinzel">C</span>
+                    <span class="text-xs text-slate-400">Do • Red</span>
+                </button>
+                <!-- G -->
+                <button onclick="selectNote('G', '#ff7f00', 'Naranja / Dorado', 'Alegría Creativa, Sol', 392.00)" class="note-key p-4 rounded-xl bg-mystic-card border border-orange-500/40 text-left hover:border-orange-500">
+                    <span class="block text-2xl font-bold text-orange-400 font-cinzel">G</span>
+                    <span class="text-xs text-slate-400">Sol • Orange</span>
+                </button>
+                <!-- D -->
+                <button onclick="selectNote('D', '#ffff00', 'Amarillo Brillante', 'Luz Solar, Entusiasmo', 293.66)" class="note-key p-4 rounded-xl bg-mystic-card border border-yellow-500/40 text-left hover:border-yellow-500">
+                    <span class="block text-2xl font-bold text-yellow-300 font-cinzel">D</span>
+                    <span class="text-xs text-slate-400">Re • Yellow</span>
+                </button>
+                <!-- A -->
+                <button onclick="selectNote('A', '#00ff00', 'Verde Primavera', 'Crecimiento, Vitalidad Organica', 440.00)" class="note-key p-4 rounded-xl bg-mystic-card border border-green-500/40 text-left hover:border-green-500">
+                    <span class="block text-2xl font-bold text-green-400 font-cinzel">A</span>
+                    <span class="text-xs text-slate-400">La • Green</span>
+                </button>
+                <!-- E -->
+                <button onclick="selectNote('E', '#00ffff', 'Azul Cielo / Esmeralda', 'Tranquilidad, Serenidad Espiritual', 329.63)" class="note-key p-4 rounded-xl bg-mystic-card border border-cyan-500/40 text-left hover:border-cyan-500">
+                    <span class="block text-2xl font-bold text-cyan-400 font-cinzel">E</span>
+                    <span class="text-xs text-slate-400">Mi • Cyan</span>
+                </button>
+                <!-- B -->
+                <button onclick="selectNote('B', '#0000ff', 'Azul Azulado / Cobalto', 'La Inmensidad del Cosmos', 493.88)" class="note-key p-4 rounded-xl bg-mystic-card border border-blue-500/40 text-left hover:border-blue-500">
+                    <span class="block text-2xl font-bold text-blue-500 font-cinzel">B</span>
+                    <span class="text-xs text-slate-400">Si • Blue</span>
+                </button>
+                <!-- F# -->
+                <button onclick="selectNote('F♯', '#9400d3', 'Violeta / Púrpura', 'Misticismo, Trascendencia Divine', 369.99)" class="note-key p-4 rounded-xl bg-mystic-card border border-purple-500/40 text-left hover:border-purple-500">
+                    <span class="block text-2xl font-bold text-purple-400 font-cinzel">F♯</span>
+                    <span class="text-xs text-slate-400">Fa# • Violet</span>
+                </button>
+                <!-- D♭ -->
+                <button onclick="selectNote('D♭', '#ff00ff', 'Púrpura Violeta / Magenta', 'Éxtasis Supremo', 277.18)" class="note-key p-4 rounded-xl bg-mystic-card border border-fuchsia-500/40 text-left hover:border-fuchsia-500">
+                    <span class="block text-2xl font-bold text-fuchsia-400 font-cinzel">D♭</span>
+                    <span class="text-xs text-slate-400">Re♭ • Magenta</span>
+                </button>
+                <!-- A♭ -->
+                <button onclick="selectNote('A♭', '#8b0055', 'Púrpura Oscuro', 'Profundidad de la Noche Mística', 415.30)" class="note-key p-4 rounded-xl bg-mystic-card border border-pink-700/40 text-left hover:border-pink-500">
+                    <span class="block text-2xl font-bold text-pink-600 font-cinzel">A♭</span>
+                    <span class="text-xs text-slate-400">La♭ • Dark Purple</span>
+                </button>
+                <!-- E♭ -->
+                <button onclick="selectNote('E♭', '#a9a9a9', 'Gris Metálico / Acero', 'La Razón y la Estructura', 311.13)" class="note-key p-4 rounded-xl bg-mystic-card border border-slate-500/40 text-left hover:border-slate-400">
+                    <span class="block text-2xl font-bold text-slate-300 font-cinzel">E♭</span>
+                    <span class="text-xs text-slate-400">Mi♭ • Steel Grey</span>
+                </button>
+                <!-- B♭ -->
+                <button onclick="selectNote('B♭', '#d2b48c', 'Marrón / Bronce', 'La Tierra y la Naturaleza', 466.16)" class="note-key p-4 rounded-xl bg-mystic-card border border-amber-800/40 text-left hover:border-amber-700">
+                    <span class="block text-2xl font-bold text-amber-700 font-cinzel">B♭</span>
+                    <span class="text-xs text-slate-400">Si♭ • Bronze</span>
+                </button>
+                <!-- F -->
+                <button onclick="selectNote('F', '#ff4500', 'Rojo Fuego', 'Pasión e Impulso Vital', 349.23)" class="note-key p-4 rounded-xl bg-mystic-card border border-red-600/40 text-left hover:border-red-600">
+                    <span class="block text-2xl font-bold text-red-600 font-cinzel">F</span>
+                    <span class="text-xs text-slate-400">Fa • Red-Orange</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Obras Emblemáticas -->
+    <section id="obras" class="py-24 px-6 bg-mystic-dark border-t border-mystic-border/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-amber-500 font-cinzel font-semibold tracking-widest text-sm uppercase">Repertorio Maestro</span>
+                    <h2 class="font-cinzel text-3xl md:text-5xl font-bold text-slate-100 mt-2">Obras Emblemáticas</h2>
+                </div>
+                <p class="text-slate-400 max-w-md mt-4 md:mt-0 text-sm">
+                    Piezas que desafiaron las leyes de la tonalidad tradicional e inmortalizaron el misticismo scriabiniano.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Obra 1 -->
+                <div class="bg-mystic-card border border-mystic-border p-8 rounded-2xl hover:border-amber-500/50 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-cinzel tracking-widest text-amber-400 border border-amber-500/30 px-3 py-1 rounded-full">Op. 60 (1910)</span>
+                            <i class="fa-solid fa-fire-flame-curved text-amber-500 text-xl group-hover:scale-125 transition-transform"></i>
+                        </div>
+                        <h3 class="font-cinzel text-2xl font-bold text-slate-100 mb-3 group-hover:text-amber-400 transition-colors">Prometeo: El Poema del Fuego</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Diseñada para orquesta, piano, coro y el <em>Clavier à lumières</em>. Representa la entrega del fuego prometico a la humanidad como el despertar de la conciencia mística.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span>Orquesta & Luces</span>
+                        <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-bolt"></i> Acorde Místico</span>
+                    </div>
+                </div>
+
+                <!-- Obra 2 -->
+                <div class="bg-mystic-card border border-mystic-border p-8 rounded-2xl hover:border-amber-500/50 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-cinzel tracking-widest text-amber-400 border border-amber-500/30 px-3 py-1 rounded-full">Op. 54 (1907)</span>
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-xl group-hover:scale-125 transition-transform"></i>
+                        </div>
+                        <h3 class="font-cinzel text-2xl font-bold text-slate-100 mb-3 group-hover:text-amber-400 transition-colors">El Poema del Éxtasis</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Una monumental obra sinfónica en un solo movimiento. Expresa el gozo supremo de la creación artística, el triunfo del espíritu libre y el éxtasis orgásmico-espiritual.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span>Poema Sinfónico</span>
+                        <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-heart-pulse"></i> Gran Fuerza Expresiva</span>
+                    </div>
+                </div>
+
+                <!-- Obra 3 -->
+                <div class="bg-mystic-card border border-mystic-border p-8 rounded-2xl hover:border-amber-500/50 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-cinzel tracking-widest text-amber-400 border border-amber-500/30 px-3 py-1 rounded-full">Op. 53 (1907)</span>
+                            <i class="fa-solid fa-music text-amber-500 text-xl group-hover:scale-125 transition-transform"></i>
+                        </div>
+                        <h3 class="font-cinzel text-2xl font-bold text-slate-100 mb-3 group-hover:text-amber-400 transition-colors">Sonata para piano No. 5</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            El punto de inflexión donde abandona definitivamente la tonalidad tradicional. Scriabin incluyó en la partitura un epígrafe de su propio *Poema del Éxtasis*.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span>Piano Solo</span>
+                        <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-feather"></i> Vanguardia Pianística</span>
+                    </div>
+                </div>
+
+                <!-- Obra 4 -->
+                <div class="bg-mystic-card border border-mystic-border p-8 rounded-2xl hover:border-amber-500/50 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-cinzel tracking-widest text-amber-400 border border-amber-500/30 px-3 py-1 rounded-full">Op. 72 (1914)</span>
+                            <i class="fa-solid fa-volcano text-amber-500 text-xl group-hover:scale-125 transition-transform"></i>
+                        </div>
+                        <h3 class="font-cinzel text-2xl font-bold text-slate-100 mb-3 group-hover:text-amber-400 transition-colors">Vers la Flamme (Hacia la Llama)</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Un poema tonoso para piano que ilustra una visión apocalíptica: la destrucción paulatina del planeta consumido por el calor creciente del Sol.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span>Poema de Piano</span>
+                        <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-temperature-high"></i> Crescendo Cósmico</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Citas Célebres -->
+    <section id="citas" class="py-24 px-6 bg-mystic-dark/90 border-t border-mystic-border/30 relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <i class="fa-solid fa-quote-left text-5xl text-amber-500/30 mb-8 block"></i>
+            
+            <div id="quoteCarousel" class="min-h-[160px] flex items-center justify-center">
+                <blockquote class="transition-opacity duration-500" id="quoteText">
+                    <p class="font-cinzel text-2xl md:text-3xl text-amber-100 leading-relaxed italic">
+                        "¡Yo soy la vida! ¡Yo soy la esperanza! ¡Yo soy la dicha! ¡Yo soy el triunfo!"
+                    </p>
+                </blockquote>
+            </div>
+
+            <!-- Controles de Cita -->
+            <div class="flex items-center justify-center space-x-3 mt-8">
+                <button onclick="changeQuote(0)" class="quote-dot w-3 h-3 rounded-full bg-amber-500 transition-all duration-300"></button>
+                <button onclick="changeQuote(1)" class="quote-dot w-3 h-3 rounded-full bg-slate-700 transition-all duration-300"></button>
+                <button onclick="changeQuote(2)" class="quote-dot w-3 h-3 rounded-full bg-slate-700 transition-all duration-300"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-mystic-dark border-t border-mystic-border/50 text-center text-slate-500 text-sm">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="font-cinzel text-slate-300 font-semibold tracking-wider">
+                ALEKSANDR SCRIABIN • 1872–1915
+            </div>
+            <div class="text-xs text-slate-400">
+                Diseño inspirado en el Teclado Cromático y la Filosofía Teosófica del Fuego.
+            </div>
+            <div class="flex space-x-4 text-amber-400 text-lg">
+                <a href="#" class="hover:text-amber-300 transition-colors" title="Subir"><i class="fa-solid fa-arrow-up"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript para Interactividad Sintetizada -->
+    <script>
+        // Citas de Scriabin
+        const quotes = [
+            "\"¡Yo soy la vida! ¡Yo soy la esperanza! ¡Yo soy la dicha! ¡Yo soy el triunfo!\"",
+            "\"La música adquiere su significado pleno solo cuando se convierte en un vehículo para la transfiguración del alma y el cosmos.\"",
+            "\"Para ser un creador, uno debe ser un abismo de luz y fuego. El verdadero arte destruye los límites del cuerpo y la mente.\""
+        ];
+
+        let currentQuoteIndex = 0;
+
+        function changeQuote(index) {
+            currentQuoteIndex = index;
+            const quoteText = document.getElementById('quoteText');
+            const dots = document.querySelectorAll('.quote-dot');
+
+            quoteText.style.opacity = '0';
+
+            setTimeout(() => {
+                quoteText.innerHTML = `<p class="font-cinzel text-2xl md:text-3xl text-amber-100 leading-relaxed italic">${quotes[index]}</p>`;
+                quoteText.style.opacity = '1';
+            }, 300);
+
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.classList.remove('bg-slate-700');
+                    dot.classList.add('bg-amber-500');
+                } else {
+                    dot.classList.remove('bg-amber-500');
+                    dot.classList.add('bg-slate-700');
+                }
+            });
+        }
+
+        // Sintetizador de audio web simple para reproducir frecuencia de notas
+        let audioCtx = null;
+
+        function playTone(freq) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                // Envolvente de sonido suave estilo piano
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.25, audioCtx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.25);
+            } catch (e) {
+                console.log('Audio Context no permitido sin interacción previa.');
+            }
+        }
+
+        // Selección de nota y cambio de iluminación sinestésica
+        function selectNote(note, colorHex, colorName, meaning, freq) {
+            const display = document.getElementById('synesthesiaDisplay');
+            const glowBg = document.getElementById('colorGlowBg');
+            const noteText = document.getElementById('synesthesiaNote');
+            const colorNameText = document.getElementById('synesthesiaColorName');
+            const meaningText = document.getElementById('synesthesiaMeaning');
+            const ambientGlow = document.getElementById('ambientGlow');
+
+            // Actualizar texto con efecto visual
+            noteText.innerText = note;
+            colorNameText.innerText = colorName;
+            meaningText.innerText = meaning;
+
+            // Actualizar colores
+            display.style.borderColor = colorHex;
+            display.style.boxShadow = `0 0 45px -5px ${colorHex}55`;
+            glowBg.style.backgroundColor = colorHex;
+
+            // Cambio sutil del halo ambiental general
+            ambientGlow.style.background = `radial-gradient(circle at 50% 50%, ${colorHex}44, transparent 75%)`;
+
+            // Efecto visual en la tecla activa
+            const buttons = document.querySelectorAll('.note-key');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Reproducir sonido sintetizado
+            playTone(freq);
+        }
+
+        // Configuración Menú Mobile
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
